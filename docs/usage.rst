@@ -1,16 +1,14 @@
-Usage
+使用
 =====
 
-This guide describes commonly used functions of the ``php7-sapnwrfc`` extension.
-For a more detailed overview of available methods, refer to the :doc:`API overview </api>`. 
+本指南介绍了 ``php7-sapnwrfc`` 扩展的常用功能。有关可用方法的更详细概述，请参阅 :doc:`API overview </api>`。
 
-For getting started right away, refer to the :ref:`quick-start`.
+要立即开始使用，请参阅 :ref:`quick-start`。
 
-Connecting to a SAP system
+连接SAP系统
 --------------------------
 
-To connect to a SAP system, we create a new instance of ``SAPNWRFC\Connection``,
-passing connection parameters:
+连接SAP系统，我们需要传递两个连接参数创建一个 ``SAPNWRFC\Connection`` 实例:
 
 .. code-block:: php
 
@@ -21,36 +19,33 @@ passing connection parameters:
         'client' => '123',
         'user' => 'DEMO',
         'passwd' => 'XXXX',
-        // if you need to connect through saprouter, uncomment the following line
+        // 如果您需要通过saprouter连接，请取消下行注释
         //'saprouter' => '/H/my.saprouter.local/H/',
     ];
 
-    // connect
+    // 连接
     $connection = new SAPNWRFC\Connection($parameters);
 
-    // do work here
+    // 处理
 
-    // close the connection
+    // 关闭连接
     $connection->close();
 
-If the connection attempt fails, a ``SAPNWRFC\ConnectionException`` is thrown
-with details about the error.
+如果连接尝试失败，则抛出 ``SAPNWRFC\ConnectionException`` ，其中包含有关错误的详细信息。
 
-We can also use a ``sapnwrfc.ini`` file to specify connection details. See
-``SAPNWRFC\Connection::setIniPath($path)`` and ``SAPNWRFC\Connection::reloadIniFile()``
-in the :doc:`API overview </api>` for details.
+我们还可以使用 ``sapnwrfc.ini`` 件来指定连接详细信息。有关详细信息，请参阅 :doc:`API overview </api>` 中的 
+``SAPNWRFC\Connection::setIniPath($path)`` 和 ``SAPNWRFC\Connection::reloadIniFile()`` 。
 
-For available connection parameters refer to the `sapnwrfc.ini parameter overview <https://help.sap.com/viewer/753088fc00704d0a80e7fbd6803c8adb/7.5.9/en-US/48ce50e418d3424be10000000a421937.html>`_.
+有关可用的连接参数，请参阅 `sapnwrfc.ini参数概述 <https://help.sap.com/viewer/753088fc00704d0a80e7fbd6803c8adb/7.5.9/en-US/48ce50e418d3424be10000000a421937.html>`_ 。
 
-After we are done using the connection, it is recommended to close the connection
-using ``SAPNWRFC\Connection::close()``.
+在使用完连接后，建议使用 ``SAPNWRFC\Connection::close()`` 关闭连接。
 
-Connection options
+连接选项
 ^^^^^^^^^^^^^^^^^^
 
 .. versionadded:: 1.2.0
 
-The ``SAPNWRFC\Connection`` takes a second (optional) parameter specifying options for the connection.
+ ``SAPNWRFC\Connection`` 使用了第二个（可选）参数来指定连接。
 
 .. code-block:: php
 
@@ -64,38 +59,32 @@ The ``SAPNWRFC\Connection`` takes a second (optional) parameter specifying optio
 
     $connection = new SAPNWRFC\Connection($parameters, $options);
 
-The following options are available:
+可以使用以下选项：
 
 use_function_desc_cache
-    If set to ``false`` the local function desc cache is cleared before looking up a function
-    using ``Connection::getFunction()``.
-    This can be useful if a function module signature changes in the backend while a script
-    is still running. If the script continues to use the old (cached) function description
-    this will result in garbage/missing values.
+    如果设置为 ``false`` ，则在使用 ``Connection::getFunction()`` 查找函数之前，将清除本地函数目标缓存。
+    如：仍在运行时后端功能模块签名发生更改，此时该功能非常有用。因为如果脚本继续使用旧的（缓存的）函数描述，
+    则会导致垃圾/缺失值。
 
-    .. note::
+.. note::
 
-        Setting this option to ``false`` can result in degraded performance as the
-        function description has to be fetched from the backend every time ``Connection::getFunction()``
-        is called. 
+    将此选项设置为 ``false`` 可能会导致性能下降，因为每次调用 ``Connection::getFunction()`` 时都必须从后端获取函数描述。
 
-    .. seealso::
+.. seealso::
 
-        See :ref:`manually_clearing_function_desc_cache` for a way to clear the cache for individual
-        function modules.
+    有关清除各个功能模块的高速缓存的方法，请参阅 :ref:`manually_clearing_function_desc_cache` 。
 
-    *Default:* ``true``
+    *默认值:* ``true``
 
-Calling remote function modules
+调用远程函数模块
 -------------------------------
 
-Looking up the function module
+
+查找功能模块 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Before we can call a remote function module, we have to lookup the desired
-function module to retrieve a ``SAPNWRFC\RemoteFunction`` object. This is accomplished
-with the ``SAPNWRFC\Connection::getFunction($functionName)`` method. We simply pass
-the name of the remote function module:
+在我们调用远程功能模块之前，我们必须查找所需的函数模块以返回 ``SAPNWRFC\RemoteFunction`` 对象。
+这是通过 ``SAPNWRFC\Connection::getFunction($functionName)`` 方法完成的。我们只需传递远程功能模块的名称：
 
 .. code-block:: php
 
@@ -103,19 +92,16 @@ the name of the remote function module:
     
     $remoteFunction = $connection->getFunction('RFC_PING');
 
-If the lookup is successful, an object of type ``SAPNWRFC\RemoteFunction`` is returned
-which can be used for invoking the function.
+如果查找成功，则返回 ``SAPNWRFC\RemoteFunction`` 类型的对象，该对象可用于调用该函数。
 
-If the function lookup fails, a ``SAPNWRFC\FunctionCallException`` is thrown.
+如果函数查找失败，则抛出 ``SAPNWRFC\FunctionCallException`` 异常。
 
-Calling the function module
+调用函数模块
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-After we have retrieved a ``SAPNWRFC\RemoteFunction`` object, we can invoke
-the function module by using its ``invoke()`` method.
+在获取到 ``SAPNWRFC\RemoteFunction`` 对象之后，我们可以使用 ``invoke()`` 方法调用该函数模块。
 
-To invoke the function module ``RFC_PING``, we can simply call ``invoke()``
-without parameters.
+要调用函数模块 ``RFC_PING``，我们可以简单地调用不带参数的 ``invoke()``。
 
 .. code-block:: php
 
@@ -123,33 +109,27 @@ without parameters.
 
     $returnValue = $remoteFunction->invoke();
 
-If the function module returns parameters, ``invoke()`` returns them. On any
-errors, a ``SAPNWRFC\FunctionCallException`` is thrown.
+如果函数模块有返回值，则调用 ``invoke()`` 将会返回它们。发生任何错误上，将抛出 ``SAPNWRFC\FunctionCallException`` 异常。
 
-Parameters and return values
+参数和返回值
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In practice, most of the remote function modules will require us to pass
-parameters and/or will return parameters after invocation.
+实际上，大多数远程功能模块都要求我们传递参数和/或在调用后返回参数。
 
-Passing parameters is possible using the ``$parameters`` array of the remote
-function's ``invoke()`` method. Parameters are passed as arrays, with the
-key being the name of the parameter and the value the value to pass.
+通过使用 ``$parameters`` 数组传递可能需要的参数给函数的 ``invoke()`` 方法。键是参数的名称，值是要传递的值。
 
-The same is true for return values. If a remote function module returns parameters,
-they will be available in the array returned from ``invoke()``.
+返回值也是如此。如果远程功能模块有返回值，它们将通过 ``invoke()`` 返回一个数组。
 
 .. note::
 
-    ABAP function modules know four different types of parameters:
+    ABAP功能模块知道四种不同类型的参数：
 
-    - ``IMPORT``: set by the client.
-    - ``EXPORT``: set by the server.
-    - ``CHANGING``: set by the client and can be modified by the server.
-    - ``TABLE``: set by the client and can be modified by the server.
+    - ``IMPORT``: 由客户端设定
+    - ``EXPORT``: 由服务端设定
+    - ``CHANGING``:  由客户端设定并且可被服务端修改
+    - ``TABLE``:  由客户端设定并且可被服务端修改
 
-To call a function module ``STFC_CHANGING`` that requires input parameters as well
-as returns parameters to the caller, we can do as follows:
+    调用需要传参的函数模块 ``STFC_CHANGING`` 以及向调用者返回参数，我们可以执行以下操作：
 
 .. code-block:: php
 
@@ -170,13 +150,12 @@ as returns parameters to the caller, we can do as follows:
     }
     */
 
-The types of the parameters and return values are mapped to standard PHP types.
+参数和返回值的类型映射到标准PHP类型。
 
-Parameter type mappings
+参数类型映射
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Remote function modules execute ABAP code and therefor use ABAB data types. This extension
-maps between RFC data types and builtin PHP data types as follows:
+远程功能模块执行ABAP代码，因此使用ABAB数据类型。此扩展在RFC数据类型和内置PHP数据类型之间进行映射，如下所示：
 
 +-----------+----------+-----------+---------------------------------------------------+------------------------------------------------+
 | ABAP type | RFC type | PHP type  | Meaning                                           | Notes                                          |
@@ -202,17 +181,15 @@ maps between RFC data types and builtin PHP data types as follows:
 | F         | FLOAT    | double    | Floating point number                             |                                                |
 +-----------+----------+-----------+---------------------------------------------------+------------------------------------------------+
 
-Additionally, there are also tables and structures:
+此外，还有表格和结构：
 
-- A structure is mapped to an associative array, with the keys being the field names
-  and the values the field values.
-- A table is an array of structures.
+- 结构体映射到关联数组，键是字段名称，值是字段值。
+- 内表是个数组结构
 
-Passing options when calling function modules
+调用函数模块时传递可选参数
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-When calling function modules using ``RemoteFunction::invoke()`` a second parameter can
-be passed specifying options for the function call.
+使用 ``RemoteFunction::invoke()`` 调用函数模块时，可以传递第二个参数，指定函数调用的选项。
 
 .. code-block:: php
 
@@ -225,28 +202,24 @@ be passed specifying options for the function call.
 
     $function->invoke($parameters, $options);
 
-The following options are available:
+可以使用以下选项：
 
 rtrim
-    In ABAP, there are two ways to store strings: as fixed length string type C or as dynamic
-    length type STRING. When using type C strings are right-padded with blanks, if the string
-    is shorter than the predefined length. To unify the extensions behaviour with strings, the
-    ``rtrim`` option is available. If set to ``true``, type C strings are right-trimmed before
-    being returned.
+    在ABAP中，有两种方法可以存储字符串：固定长度字符串类型 C 或动态长度类型 STRING 。当使用 C 类字符串时，
+    如果字符串短于预定义的长度，则使用空格右边填充字符串。要使用字符串统一扩展行为，可以使用rtrim选项。如果
+    设置为true，则在返回之前键入 C 字符串进行右边trim。 
 
-    *Default:* ``false``
+    *默认值：* ``false``
 
-Activating/Deactivating parameters
+激活/取消激活参数
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The *SAP NW RFC library* supports the activation and deactivation of parameters
-of a function module. This is especially useful if a function module has a lot of
-(possibly big) return values that you are not interested in.
+在一个函数模块中 *SAP NW RFC library* 支持激活和取消激活功能模块的参数。如果函数模块具有许多（可能很大的）
+您不感兴趣的返回值时，这将非常有用。
 
-To activate or deactivate a parameter, we call the method 
-``SAPNWRFC\RemoteFunction::setParameterActive($parameterName, $isActive)``
-on the remote function object. We can use ``SAPNWRFC\RemoteFunction::isParameterActive($parameterName)``
-to check if a parameter is active or not.
+要激活或取消激活参数，我们在远程函数对象上调用方法
+``SAPNWRFC\RemoteFunction::setParameterActive($parameterName, $isActive)``。
+我们可以使用 ``SAPNWRFC\RemoteFunction::isParameterActive($parameterName)`` 来检查参数是否处于活动状态。
 
 .. code-block:: php
 
@@ -259,8 +232,8 @@ to check if a parameter is active or not.
 
     $function->isParameterActive('IMPORTSTRUCT'); // returns false
 
-    // we don't need to pass parameters when invoking the function module,
-    // as we deactivated all of them
+    // 在调用函数模块时我们不需要传递参数,
+    // 因为我们取消激活所有
     $result = $function->invoke([]);
 
     // $result will not contain the 'RFCTABLE' parameter
@@ -276,19 +249,16 @@ to check if a parameter is active or not.
 
 .. _manually_clearing_function_desc_cache:
 
-Manually clearing the function module description cache
+手动清除功能模块描述缓存
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. versionadded:: 1.3.0
 
-A call to ``Connection::getFunction()`` uses a local cache of the function module
-descriptions to speed up the lookup. This usually is desired behaviour but can
-lead to unexpected results when the function module signature changes in the
-backend while a script is still running (missing/garbage return values, etc.).
+对 ``Connection::getFunction()`` 的调用使用了本地的函数模块描述缓存来加速查找。通常是希望这么做的，但是当脚本在运行时，在
+后端修改函数模块签名可能会导致意外结果（缺少/垃圾返回值等）。
 
-In addition to setting the ``use_function_desc_cache`` option on the connection
-level the cache can also be cleared for individual function modules using the
-function ``\SAPNWRFC\clearFunctionDescCache($functionName, $repositoryId = null)``.
+除了在连接级别设置 ``use_function_desc_cache`` 选项外，还可以使用该函数
+ ``\SAPNWRFC\clearFunctionDescCache($functionName, $repositoryId = null)`` 清除各个函数模块的缓存。
 
 .. code-block:: php
 
@@ -300,8 +270,7 @@ function ``\SAPNWRFC\clearFunctionDescCache($functionName, $repositoryId = null)
 
 .. warning::
 
-    Manually clearing the function desc cache does not affect already
-    existing ``RemoteFunction`` objects:
+    手动清除函数描述缓存不会影响现有的 ``RemoteFunction`` 对象:
 
     .. code-block:: php
 
@@ -311,61 +280,48 @@ function ``\SAPNWRFC\clearFunctionDescCache($functionName, $repositoryId = null)
         \SAPNWRFC\clearFunctionDescCache('STFC_STRUCTURE');
         $newFn = $connection->getFunction('STFC_STRUCTURE');
 
-        // $oldFn still uses the old function description!
+        // $oldFn 仍然使用旧的功能描述！
 
 
-Function module details
+函数模块细节
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-The ``SAPNWRFC\RemoteFunction`` object defines a ``name`` property containing
-the name of the function module it represents.
+ ``SAPNWRFC\RemoteFunction`` 对象定义一个 ``name`` 属性，该属性包含它所代表的功能模块的名称。
 
-Additionally, a property for each parameter of the function module is defined
-on the object that can be used to get detailed information about the parameter.
+此外，在对象上定义函数模块的每个参数的属性，该属性可用于获取有关参数的详细信息。
 
-Trace levels
+Trace 级别
 ------------
 
-The *SAP NW RFC library* allows the creation of trace files to troubleshoot
-connection and/or function call problems.
+*SAP NW RFC library* 允许创建跟踪文件以解决连接和/或函数调用问题。
 
-We can set the desired trace level via the ``trace`` parameter when
-establishing the connection or change it at any time using the
-``SAPNWRFC\Connection::setTraceLevel($level)`` method.
+我们可以在建立连接时通过 ``trace`` 参数设置所需的跟踪级别，也可以使用
+``SAPNWRFC\Connection::setTraceLevel($level)`` 方法随时更改它。
 
-The extension defines constants on the ``SAPNWRFC\Connection`` class 
-for the four trace levels (from least to most verbose): ``TRACE_LEVEL_OFF``,
+该扩展为 ``SAPNWRFC\Connection`` 类定义了四个跟踪级别（从最小到最详细）的常量： ``TRACE_LEVEL_OFF``,
 ``TRACE_LEVEL_BRIEF``, ``TRACE_LEVEL_VERBOSE``, ``TRACE_LEVEL_FULL``.
 
-Additionally, we can set the directory for the generated trace file
-using ``SAPNWRFC\Connection::setTraceDir($path)``. The default location
-for the trace file is the current working directory.
+此外，我们可以使用 ``SAPNWRFC\Connection::setTraceDir($path)`` 为生成的跟踪文件设置目录。跟踪文件的默认位置是当前工作目录。
 
-Getting the version
+获取版本
 -------------------
 
-The extension provides the methods ``SAPNWRFC\Connection::version()`` and
-``SAPNWRFC\Connection::rfcVersion()`` for getting the extension version
-and the RFC SDK version in use.
+该扩展提供了 ``SAPNWRFC\Connection::version()`` 和 ``SAPNWRFC\Connection::rfcVersion()`` 方法，用于获取正在使用的扩展版本和RFC SDK版本。
 
-Both methods return a string formatted as ``MAJOR.MINOR.PATCH`` (for example 1.1.3);
+两种方法都返回一个格式为 ``MAJOR.MINOR.PATCH`` 的字符串（例如1.1.3）;
 
-Exceptions
+异常
 ----------
 
-If an error occurs during any interaction, an exception is thrown with error details.
-Currently, there are two exception classes:
+如果在任何交互期间发生错误，则会引发异常并显示错误详细信息。目前，有两个异常类：
 
-- ``SAPNWRFC\ConnectionException`` for any errors that concern the connection itself.
-- ``SAPNWRFC\FunctionCallException`` for errors that stem from function module invocations.
+- ``SAPNWRFC\ConnectionException`` 用于与连接本身有关的任何错误。
+- ``SAPNWRFC\FunctionCallException`` 用于源自函数模块调用的错误。
 
-Both exception classes extend the base exception class ``SAPNWRFC\Exception``, which
-adds an additional ``getErrorInfo()`` method to the standard methods and properties
-provided by ``RuntimeException``.
+这两个异常类都扩展了基本异常类 ``SAPNWRFC\Exception`` ，它为 ``RuntimeException`` 提供的标准方法和属性添加了一个
+额外的 ``getErrorInfo()`` 方法。
 
-``getErrorInfo()`` returns an array with detailed error information and contains
-at least the keys ``code``, ``key`` and ``message``. 
+``getErrorInfo()`` 返回一个包含详细错误信息的数组，至少包含 ``code``, ``key`` 和 ``message``. 
 
-Depending on the type of error, the following additional keys might be available
-with detailed information: ``abapMsgClass``, ``abapMsgType``, ``abapMsgNumber``, 
+根据错误类型，在详细信息中以下额外的键可能被使用： ``abapMsgClass``, ``abapMsgType``, ``abapMsgNumber``, 
 ``abapMsgV1``, ``abapMsgV2``, ``abapMsgV3``, ``abapMsgV4``.

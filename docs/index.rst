@@ -1,18 +1,18 @@
-php7-sapnwrfc - RFC connector for PHP 7
+php7-sapnwrfc - RFC  PHP 7 的连接器
 =======================================
 
-The `php7-sapnwrfc extension <https://github.com/gkralik/php7-sapnwrfc>`_ 
-provides an interface to use the *SAP NetWeaver RFC library* to call
-ABAP function modules via the SAP Remote Function Call (RFC) protocol.
+`php7-sapnwrfc 扩展 <https://github.com/gkralik/php7-sapnwrfc>`_ 
+php7-sapnwrfc扩展提供了一个接口，使用 *SAP NetWeaver RFC 库* 通过SAP远程函
+数调用（RFC）协议调用ABAP功能模块
 
-To start using ``php7-sapnwrfc``, follow the :ref:`quick-start`.
+
+使用 ``php7-sapnwrfc``, 请按照 :ref:`quick-start`。
 
 .. note::
 
-   This documentation is updated continually and thus always reflects 
-   the latest development version of the extension.
+   此文档不断更新，因此始终对应扩展最新的开发版本。
 
-Documentation
+文档
 -------------
 
 .. toctree::
@@ -25,17 +25,15 @@ Documentation
    building
 ..   changelog
 
-Contributing
+贡献
 ------------
 
-Contribution to the project (be it by reporting/fixing bugs, writing documentaton, 
-helping with testing) is very welcome. Just `open an issue <https://github.com/gkralik/php7-sapnwrfc/issues>`_ 
-or a `pull request <https://github.com/gkralik/php7-sapnwrfc/pulls>`_ on GitHub.
+非常欢迎对项目的贡献（通过报告/修复错误，编写文档，帮助测试）。只需在GitHub上打开一个 `打开一个问题 <https://github.com/gkralik/php7-sapnwrfc/issues>`_ 或 `一个拉取请求 <https://github.com/gkralik/php7-sapnwrfc/pulls>`_ 。
 
-License
--------
+版权信息
+---------
 
-This software is licensed under the MIT license:
+该软件遵循 MIT 协议: 
 
 
 .. code-block:: none
@@ -60,13 +58,10 @@ This software is licensed under the MIT license:
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-Legal notice
+法律声明
 ------------
 
-SAP and other SAP products and services mentioned herein are trademarks or 
-registered trademarks of SAP SE (or an SAP affiliate company) in Germany 
-and other countries.
-
+此处提及的SAP和其他SAP产品和服务是SAP SE（或SAP关联公司）在德国和其他国家/地区的商标或注册商标。
 
 .. Indices and tables
     ==================

@@ -1,87 +1,74 @@
-Installation
+安装
 ============
 
-The installation of the ``php7-sapnwrfc`` extension consists of three steps.
+安装 ``php7-sapnwrfc`` 扩展包含两部分.
 
-- Installing the *SAP NW RFC library*
-- Compiling the PHP extension
-- Enabling the extension in your PHP configuration
+- 安装 *SAP NW RFC 库*
+- 在PHP配置文件中启用扩展
 
 .. _installing-nwrfcsdk:
 
-Installing the SAP NW RFC library
+安装 SAP NW RFC 库
 ---------------------------------
 
-You can find detailed instructions on how to compile, install and use 
-the *SAP NW RFC library* on http://service.sap.com/rfc-library.
+您可以在http://service.sap.com/rfc-library上找到有关如何编译，
+安装和使用SAP NW RFC库的详细说明。
 
-Download the SAP NW RFC library
+下载 SAP NW RFC 库
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To download the *SAP NW RFC library*, go to the `Software Center on the 
-SAP ONE Support Launchpad <https://launchpad.support.sap.com/#/softwarecenter>`_.
+在 `Software Center on the SAP ONE Support Launchpad <https://launchpad.support.sap.com/#/softwarecenter>`_ 中下载 *SAP NW RFC library*.
 
-Enter ``SAP NW RFC SDK 7.20`` in the search box. Then download the library version 
-that suits your platform.
+搜索 ``SAP NW RFC SDK 7.20`` . 下载适合你平台的版本.
 
 .. image:: /images/search_nwrfcsdk.png
    :alt: Search for SAP NW RFC SDK 7.20
 
-If you don't already have it, you also need the *SAPCAR* utility to extract the 
-library. You can also download it from the SAP Support Portal. Search for
-``SAPCAR 7.20``.
+搜索 ``SAPCAR 7.20`` 下载 *SAPCAR* 工具解压SDK.
 
 .. image:: /images/search_sapcar.png
    :alt: Search for SAPCAR 7.20
 
-Extract the library to a directory on your machine. This guide uses 
-``/usr/sap/nwrfcsdk`` (on Linux) or ``C:\nwrfcsdk`` (on Windows) as the 
-default path. You are free to choose another directory. If you do so, 
-make sure to substitute the correct path in the instructions below.
+解压类库到文件夹中. 本指南使用``/usr/sap/nwrfcsdk``（在Linux上）或 ``C:\nwrfcsdk`` （在Windows上）作为默认路径。您可以自由选择其他目录。如果这样做，请确保在下面的说明中
+替换正确的路径。
 
-Configuring the library path
+配置类库文件路径
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You have to configure your system to include the ``lib`` directory of your 
-*SAP NW RFC library* installation in the library search path.
+您必须将*SAP NW RFC 库* 中的 ``lib`` 文件配置在系统类库搜索范围内.
 
 Linux
 """""
 
-Create the file ``/etc/ld.so.conf.d/nwrfcsdk.conf`` with following contents:
+创建文件 ``/etc/ld.so.conf.d/nwrfcsdk.conf`` 内容如下:
 
 ::
 
     /usr/sap/nwrfcsdk/lib
 
-Then run ``ldconfig``.
+之后运行 ``ldconfig``.
 
 Windows
 """""""
 
-On a command prompt, execute ``set PATH=%PATH%;C:\nwrfcsdk\lib``. This is temporary
-the change will be lost as soon as you close the command prompt.
+在命令行中执行 ``set PATH=%PATH%;C:\nwrfcsdk\lib``. 这只是临时修改，在命令行窗口关闭后修
+改将丢失.
 
 .. note:: 
 
-   The steps might differ depending on your version of Windows.
+   下面操作因为Windows版本不同而不一样.
 
-To permanently add the library to the PATH environment variable, follow these steps:
+永久添加类库到PATH环境变量，按一下步骤：
     
-    1. Open the Start menu and type ``environment``
-    2. Select ``Edit the system environment variables`` or ``Edit environment variables for your account``,
+    1. 打开“开始”菜单，然后输入 ``environment``
+    2. 选择 ``Edit the system environment variables`` or ``Edit environment variables for your account``,
        depending on whether you want to set the path for the user or the whole system.
     3. Select the ``PATH`` environment variable, click ``Edit`` and add the path ``C:\nwrfcsdk\lib``.
 
-Compiling the PHP extension
----------------------------
-
-Follow the steps in :ref:`building-from-source` to build the extension.
-
-Enabling the extension
+启用扩展
 ----------------------
 
-To enable the extension, add one of the following lines to your ``php.ini``:
+在 ``php.ini`` 中增加一行:
 
 ::
 
@@ -91,5 +78,4 @@ To enable the extension, add one of the following lines to your ``php.ini``:
     # for Windows
     extension=php_sapnwrfc.dll
 
-You can verify that the extension is loaded by inspecting the output
-of ``php -m``. It should contain a line ``sapnwrfc``.
+你可以通过查看 ``php -m`` 输出的内容确认扩展是否被加载。显示中应该包含 ``sapnwrfc``.

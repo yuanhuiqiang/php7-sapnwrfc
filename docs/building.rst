@@ -1,12 +1,10 @@
-.. _building-from-source:
-
-Building from source
+源码编译
 ====================
 
-Before attempting to build the extension, make sure the *SAP NW RFC library* is
-installed. See :ref:`installing-nwrfcsdk` for instructions.
+在尝试编译扩展前，确认 *SAP NW RFC library* 已经安装了。
+相关说明，请参阅安装 :ref:`installing-nwrfcsdk` 。
 
-Building on Linux
+在Linux上编译
 -----------------
 
 .. code-block:: shell
@@ -18,8 +16,7 @@ Building on Linux
     $ make
     $ sudo make install
 
-The build script looks for the *SAP NW RFC library* in the following locations
-by default:
+默认情况下，构建脚本在以下位置查找 *SAP NW RFC library* :
 
 .. code-block:: none
 
@@ -28,22 +25,20 @@ by default:
     /usr/local/nwrfcsdk
     /opt/nwrfcsdk
 
-If you installed the library in another location, replace the ``./configure`` step
-above with ``./configure --with-sapnwrfc=/path/to/rfc-library``.
+如果你安装类库文件在另一个路径，用 ``./configure`` 替换 ``./configure --with-sapnwrfc=/path/to/rfc-library``.
 
-Building on Windows
+在Windows上编译
 -------------------
 
-We try to provide pre-built extensions for Windows users (see the 
-`release <https://github.com/gkralik/php7-sapnwrfc/releases>`_ page). 
-If you don't find your desired version there or still want to build yourself, follow the instructions below.
+我们为Windows用户提供了预编译扩展（请参阅`发布页面 <https://github.com/gkralik/php7-sapnwrfc/releases>`_ ）. 
+如果你没有找到你要的版本或者仍然希望自己编译，按照以下说明操作。
 
-Set up a build environment
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+设置编译环境
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Make sure you have a valid `build enviroment as described here <https://wiki.php.net/internals/windows/stepbystepbuild>`_.
+确认你有一个可用 `和这里一样的构建环境 <https://wiki.php.net/internals/windows/stepbystepbuild>`_。 
 
-After you have set up the enviroment, try to build PHP itself:
+在你配置完环境后，可以尝试自己编译PHP：
 
 .. code-block:: shell
 
@@ -51,27 +46,26 @@ After you have set up the enviroment, try to build PHP itself:
     $ nmake
     $ nmake snap
 
-If that works, you can go on. If not, double check your build environment.
+如果运行成功，你可以继续。如果不是，双击检查你的编译环境。
 
-Build the extension
+编译扩展
 ^^^^^^^^^^^^^^^^^^^
 
-Make sure that you dont mix up x86/x64 (PHP and *SAP NW RFC library* platforms must match).
+确认你没有混淆 x86/x64 （ PHP 和 *SAP NW RFC library* 平台必须匹配）。
 
 .. note::
-   1. This guide assumes you want to build the x64 version.
-   2. We also assume the SDK files are in C:\nwrfcsdk
+   1. 本指南假设您要构建x64版本。
+   2.我们还假设SDK文件位于 C：\nwrfcsdk中
 
-Copy all header files (``*.h``) from ``C:\nwrfcsdk\include`` to ``C:\php-sdk\phpdev\vc14\x64\deps\include``. 
-Copy all library files (``*.lib``) from ``C:\nwrfcsdk\lib`` to ``C:\php-sdk\phpdev\vc14\x64\deps\lib.``
+将 ``C:\nwrfcsdk\include`` 中的所有头文件 (``*.h``)  复制到 ``C:\php-sdk\phpdev\vc14\x64\deps\include``. 
+将 ``C:\nwrfcsdk\lib`` 中所有库文件 (``*.lib``) 复制到 ``C:\php-sdk\phpdev\vc14\x64\deps\lib.``
 
-Download the latest release of this extension and extract it to ``C:\php-sdk\phpdev\vc14\x64\php-7.0-src\ext\sapnwrfc``.
+下载最新扩展并解压到 ``C:\php-sdk\phpdev\vc14\x64\php-7.0-src\ext\sapnwrfc``。
 
-Open the *Developer Command Prompt for VS2015* and execute the commands for 
-steps 1-4 as described in the `PHP Windows step by step build page <https://wiki.php.net/internals/windows/stepbystepbuild>`_.
+打开VS2015的开发人员命令提示符，然后按照PHP Windows逐步构建页面中的说明执行步骤1-4的命令。
+打开 *VS2015的开发人员命令窗口* ，然后按照 `PHP Windows逐步构建页面 <https://wiki.php.net/internals/windows/stepbystepbuild>`_ 中的说明执行步骤1-4的命令。
 
-The configure command (step 6) must be replaced with one of the following commands 
-(depending on which version you want to build):
+必须使用以下命令之一替换配置命令（步骤6）（这具体取决于您要构建的版本）:
 
 .. code-block: none
 
@@ -85,11 +79,11 @@ The configure command (step 6) must be replaced with one of the following comman
     // for TS (compile in)
     configure --disable-all --enable-cli --with-sapnwrfc
 
-Then continue with steps 7-9.
+然后继续步骤7-9。
 
-If you built a shared extension, the extension files should be available in one of the following locations:
+如果您构建了共享扩展，则扩展文件应位于以下位置之一：
 
-.. code-block:: none
+.. code-block: none
 
     C:\php-sdk\phpdev\vc14\x64\php-7.0-src\x64\Release\php-7.0\ext for the NTS version
     C:\php-sdk\phpdev\vc14\x64\php-7.0-src\x64\Release_TS\php-7.0\ext for the TS version

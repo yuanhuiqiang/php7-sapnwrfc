@@ -1,12 +1,10 @@
 Introduction
-============
+==============
 
-The ``php7-sapnwrfc`` extension wraps the *SAP NW RFC library* and
-uses the provided methods to allow PHP developers to call 
-remote-enabled ABAP modules.
+`php7-sapnwrfc` 扩展封装了 *SAP NetWeaver RFC 库* 并且使用提供的方法允许
+PHP开发者调用开启了远程调用的ABAP模块。
 
-If you do not have prior experience with the *SAP NW RFC SDK*, the 
-lecture of the following articles is highly recommended:
+如果您没有使用SAP NW RFC SDK的经验，强烈建议您阅读以下文章的文章：
 
 - `SAP NetWeaver RFC SDK (SAP Help) <https://help.sap.com/saphelp_nw73ehp1/helpdata/en/48/a88c805134307de10000000a42189b/frameset.htm?frameset=/en/48/a994a77e28674be10000000a421937/frameset.htm>`_
 - `SAP NetWeaver RFC SDK -- RFC Client Programs <https://wiki.scn.sap.com/wiki/display/ABAPConn/SAP+NetWeaver+RFC+SDK+--+RFC+Client+Programs>`_
@@ -14,11 +12,10 @@ lecture of the following articles is highly recommended:
 
 .. _quick-start:
 
-Quick start
------------
+快速开始
+------------
 
-The following simple example calls the RFC-enabled ABAP module 
-``STFC_CHANGING`` and dumps its return value:
+下面是调用启用RFC的ABAP模块 ``STFC_CHANGING`` 并打印返回值的简单案例：
 
 .. code-block:: php
 
@@ -58,24 +55,18 @@ The following simple example calls the RFC-enabled ABAP module
         echo 'Exception: ' . $ex->getMessage() . PHP_EOL;
     }
 
-Read the :doc:`usage guide </usage>` for a detailed explanation of the
-provided interface.
+阅读 :doc:`usage guide </usage>` ，了解所提供接口的详细说明。
 
-Usage scenarios
+使用场景
 ---------------
 
-Not all functionality of the *SAP NW RFC SDK* has been implemented
-in this exension (yet). Basically, we distinguish between two 
-scenarios:
+至今不是 *SAP NW RFC SDK* 中所有的功能都在扩展中实现了。基本上,我们区分两种情况：
 
-- Client: Calling ABAP modules from PHP code
-- Server: Calling PHP code from an ABAP client
+- 客户端: 使用PHP代码调用ABAP程序
+- 服务端: 通过ABAP客户端调用PHP代码
 
-Currently, the extension only supports the client scenario, that is
-calling ABAP function modules from PHP.
+目前，扩展只支持客户端场景，即通过PHP调用ABAP函数模块。
 
-It does not support the server scenario at this moment.
+当前不支持服务端场景。
 
-Other functionality might also not be available in this extension. If you
-have special needs, feel free to `open an issue <https://github.com/gkralik/php7-sapnwrfc/issues>`_ 
-or a `pull request <https://github.com/gkralik/php7-sapnwrfc/pulls>`_ on GitHub.
+在该扩展中其他功能可能也不能使用。如果有特殊需要，随时在GitHub上 `打开问题  <https://github.com/gkralik/php7-sapnwrfc/issues>`_ 或 `拉取请求 <https://github.com/gkralik/php7-sapnwrfc/pulls>`_ 。
