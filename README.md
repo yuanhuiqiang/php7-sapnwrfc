@@ -16,3 +16,9 @@
 若有 issue 或者 pr 请在原作者发起 
 
 
+
+
+## Other
+
+SAPNWRFCSDK资源: https://github.com/mikewolfli/sapnwrfcsdk
+SAPNWRFCSDK使用步骤：https://wiki.scn.sap.com/wiki/display/ABAPConn/Download+and+Installation+of+NW+RFC+SDK
