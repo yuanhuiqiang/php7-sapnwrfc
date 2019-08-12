@@ -1,21 +1,15 @@
 
 # SAP NW RFC extension for PHP 7
 
-This extension is intended to provide a means for PHP 7 developers to interface with the SAP NetWeaver SDK.
+此扩展旨在为PHP7开发人员提供与SAP NetWeaver SDK接口交互的方法
 
 ## Usage
 
-You can find detailed instructions on how to build and use this extension at https://gkralik.github.io/php7-sapnwrfc.
+英文使用文档： https://gkralik.github.io/php7-sapnwrfc.
+中文使用文档： https://php7-sapnwrfc.readthedocs.io/zh/latest/
 
-## Contributing
+原作者：https://github.com/gkralik/php7-sapnwrfc
 
-Contribution to the project (be it by reporting/fixing bugs, writing documentaton, helping with testing) is very welcome.
-Just open up an issue or a PR.
+若有 issue 或者 pr 请在原作者发起 
 
-## License
 
-This software is licensed under the MIT license. See [LICENSE](LICENSE) for details.
-
-## Legal notice
-
-SAP and other SAP products and services mentioned herein are trademarks or registered trademarks of SAP SE (or an SAP affiliate company) in Germany and other countries.
